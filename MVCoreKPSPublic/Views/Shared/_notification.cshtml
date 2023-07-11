@@ -1,0 +1,50 @@
+﻿@using MVCoreKPSPublic.Models.Notification
+@inject INotificationService NotiService
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    var list = NotiService.Getnotifies();
+    if (list!= null && list.Any())
+    {
+        foreach (var item in list)
+        {
+            var cssClass = "";
+       
+            switch (item.Type)
+            {
+                case NotifyType.Success:
+                    cssClass = "alert alert-success";
+                
+                    break;
+                case NotifyType.Error:
+                    cssClass = "alert alert-danger";
+                
+                    break;
+                case NotifyType.Warning:
+                    cssClass = "alert alert-warning";
+
+                    break;
+
+
+           
+            }
+            <div class="container-fluid">
+                <div class="alert alert-custom @cssClass fade show" role="alert">
+                    @if (item.Encode)
+                    {
+                        @item.Message
+                    }
+                    else
+                    {
+                        <text>
+                        @Html.Raw(item.Message)
+                        </text>
+                    }
+
+                </div>
+            </div>
+        }
+    }
+}
